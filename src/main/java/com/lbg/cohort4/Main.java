@@ -1,6 +1,8 @@
 package com.lbg.cohort4;
 
-import java.text.DecimalFormat;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -8,52 +10,67 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        float itemcost;
-        float VATrate;
+        Scanner sc = new Scanner(System.in);
+        float vatRate;
+        String input;
 
+        System.out.println("Welcome to the VAT calculator task");
+        System.out.println("Please enter the VAT rate");
+        vatRate = sc.nextFloat();
+        sc.nextLine();
+
+        float totalCost = 0.0F;
+        boolean continueCalculations = true;
+
+        ArrayList<Float> itemPrices = new ArrayList<>();
+        while(continueCalculations){
+
+            float displayTotalCost = calculateTotalCost(itemPrices, vatRate, totalCost);
+            System.out.println("Total Cost: $" + displayTotalCost);
+
+            System.out.print("Press ENTER to continue entering prices or type 'QUIT' to quit: ");
+            input = sc.nextLine().trim();
+
+            if (input.equalsIgnoreCase("QUIT")) {
+                continueCalculations = false;
+
+                Collections.sort(itemPrices);
+
+                for (float value: itemPrices){
+                    System.out.println(value);
+                }
+            }
+            totalCost += displayTotalCost;
+
+        }
+
+        System.out.println("Goodbye!");
+
+    }
+
+    public static float calculateTotalCost(ArrayList<Float> itemPrices, float vatRate, float totalCost){
         Scanner sc = new Scanner(System.in);
 
-        priceprompt();
-        itemcost = sc.nextFloat();
-        VATprompt();
-        VATrate = sc.nextFloat();
+        while (true) {
+            System.out.print("Enter item price (or 0 to finish): $");
+            float price = sc.nextFloat();
+            sc.nextLine();
 
-        float finalPrice;
-        finalPrice = VATcalculate(itemcost, VATrate);
+            if (price == 0.0f) {
 
+                break;
+            }
 
-//        System.out.println(df.format(finalPrice));
+            itemPrices.add(price);
+            totalCost += price + (price * vatRate/100);
+            System.out.println("Running Total Cost: $" + totalCost);
 
+        }
 
-
-        results(itemcost, VATrate, finalPrice );
-
-
-
-
-
+        return totalCost;
     }
 
-    static public float VATcalculate(float a, float b){
-        return a * ((100 + b)/100);
-    }
 
-    static private void priceprompt()
-    {
-        System.out.println("Please enter cost of item before VAT: ");
-    }
-
-    static private void VATprompt()
-    {
-        System.out.println("Please enter the VAT rate %: ");
-    }
-    static private void results(float cost, float vatRate, float totalPrice) {
-        DecimalFormat df = new DecimalFormat("#.##");
-
-        System.out.println("cost of the item: $" + df.format(cost));
-        System.out.println("VAT Rate: " + vatRate + "%");
-        System.out.println("Total Price: $" + df.format(totalPrice));
-    }
 
 
 }
