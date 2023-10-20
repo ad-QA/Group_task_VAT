@@ -37,10 +37,12 @@ public class Main {
 
 
                 for (Purchaseditem item : purchasedItems) {
+                    System.out.println("----------------");
                     System.out.println("Cost Price: $" + item.getPrice());
                     System.out.println("Quantity: " + item.getQuantity());
                     System.out.println("VAT Amount: $" + item.getVat() * item.getQuantity());
                     System.out.println("Total Price: $" + item.finalPrice());
+                    System.out.println("----------------");
                 }
                 System.out.println("The total cost for all items including VAT is $"+ displayTotalCost);
 
@@ -67,11 +69,11 @@ public class Main {
                 break;
             }
 
-            System.out.println("Please enter the VAT rate");
+            System.out.print("Please enter the VAT rate: %");
             vatRate = sc.nextFloat();
 
 
-            System.out.println("Enter quantity: ");
+            System.out.print("Enter quantity: ");
             int quantity = sc.nextInt();
 
 

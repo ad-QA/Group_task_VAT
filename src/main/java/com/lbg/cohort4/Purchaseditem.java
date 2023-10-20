@@ -2,13 +2,13 @@ package com.lbg.cohort4;
 
 public class Purchaseditem {
 
-    private float price;
-    private int quantity;
+    private float price ;
+    private int quantity ;
 
-    private float vat;
+    private float vat ;
 
 
-    public Purchaseditem (float price, int quantity, float vat){
+    public Purchaseditem (float price , int quantity, float vat){
         this.price = price;
         this.quantity =quantity;
         this.vat = vat;
