@@ -3,6 +3,7 @@ package com.lbg.cohort4;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -11,34 +12,38 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
-        float vatRate;
-        String input;
-
         System.out.println("Welcome to the VAT calculator task");
-        System.out.println("Please enter the VAT rate");
-        vatRate = sc.nextFloat();
-        sc.nextLine();
+
 
         float totalCost = 0.0F;
         boolean continueCalculations = true;
 
-        ArrayList<Float> itemPrices = new ArrayList<>();
+        ArrayList<Purchaseditem> purchasedItems = new ArrayList<>();
+
+
         while(continueCalculations){
 
-            float displayTotalCost = calculateTotalCost(itemPrices, vatRate, totalCost);
+            float displayTotalCost = calculateTotalCost(purchasedItems, totalCost);
             System.out.println("Total Cost: $" + displayTotalCost);
 
             System.out.print("Press ENTER to continue entering prices or type 'QUIT' to quit: ");
-            input = sc.nextLine().trim();
+            String input = sc.nextLine().trim();
+
 
             if (input.equalsIgnoreCase("QUIT")) {
                 continueCalculations = false;
 
-                Collections.sort(itemPrices);
+                Collections.sort(purchasedItems, Comparator.comparing(Purchaseditem::getPrice));
 
-                for (float value: itemPrices){
-                    System.out.println(value);
+
+                for (Purchaseditem item : purchasedItems) {
+                    System.out.println("Cost Price: $" + item.getPrice());
+                    System.out.println("Quantity: " + item.getQuantity());
+                    System.out.println("VAT Amount: $" + item.getVat() * item.getQuantity());
+                    System.out.println("Total Price: $" + item.finalPrice());
                 }
+                System.out.println("The total cost for all items including VAT is $"+ displayTotalCost);
+
             }
             totalCost += displayTotalCost;
 
@@ -48,21 +53,35 @@ public class Main {
 
     }
 
-    public static float calculateTotalCost(ArrayList<Float> itemPrices, float vatRate, float totalCost){
+    public static float calculateTotalCost(ArrayList<Purchaseditem> itemPrices, float totalCost){
         Scanner sc = new Scanner(System.in);
-
+        float vatRate;
         while (true) {
+
             System.out.print("Enter item price (or 0 to finish): $");
             float price = sc.nextFloat();
-            sc.nextLine();
+
 
             if (price == 0.0f) {
 
                 break;
             }
 
-            itemPrices.add(price);
-            totalCost += price + (price * vatRate/100);
+            System.out.println("Please enter the VAT rate");
+            vatRate = sc.nextFloat();
+
+
+            System.out.println("Enter quantity: ");
+            int quantity = sc.nextInt();
+
+
+            Purchaseditem item = new Purchaseditem(0,0,0);
+            item.setPrice(price);
+            item.setQuantity(quantity);
+            item.setVat(vatRate);
+
+            itemPrices.add(item);
+            totalCost += item.finalPrice();
             System.out.println("Running Total Cost: $" + totalCost);
 
         }

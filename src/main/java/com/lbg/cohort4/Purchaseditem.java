@@ -37,4 +37,8 @@ public class Purchaseditem {
     public void setVat(float vat) {
         this.vat = vat;
     }
+
+    public float finalPrice (){
+        return price*quantity + ((price * vat/100)*quantity);
+    }
 }
