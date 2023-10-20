@@ -77,10 +77,13 @@ public class Main {
             int quantity = sc.nextInt();
 
 
-            Purchaseditem item = new Purchaseditem(0,0,0);
-            item.setPrice(price);
-            item.setQuantity(quantity);
-            item.setVat(vatRate);
+            Purchaseditem item = new Purchaseditem(price, quantity, vatRate);
+
+            // the below is just demonstrating the use of the setter methods,
+            // I commented it out as I can just pass the values
+//            item.setPrice(price);
+//            item.setQuantity(quantity);
+//            item.setVat(vatRate);
 
             itemPrices.add(item);
             totalCost += item.finalPrice();

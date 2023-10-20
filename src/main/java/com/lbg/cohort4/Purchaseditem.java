@@ -2,10 +2,10 @@ package com.lbg.cohort4;
 
 public class Purchaseditem {
 
-    private float price ;
-    private int quantity ;
+    private float price = 0.0f;
+    private int quantity = 0 ;
 
-    private float vat ;
+    private float vat = 0.0f;
 
 
     public Purchaseditem (float price , int quantity, float vat){
